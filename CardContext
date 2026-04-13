@@ -1,0 +1,28 @@
+import React, { createContext, useState, useContext } from 'react';
+
+const CartContext = createContext();
+
+export function CartProvider({ children }) {
+  const [carrinho, setCarrinho] = useState([]);
+
+  const adicionarAoCarrinho = (produto) => {
+    // Adiciona o produto à lista atual
+    setCarrinho((prev) => [...prev, produto]);
+  };
+
+  const finalizarCompra = () => {
+    if (carrinho.length === 0) return alert("Seu carrinho está vazio!");
+    alert("Compra finalizada com sucesso!");
+    setCarrinho([]); // Limpa o carrinho após finalizar
+  };
+
+  return (
+    <CartContext.Provider value={{ carrinho, adicionarAoCarrinho, finalizarCompra }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart() {
+  return useContext(CartContext);
+}
